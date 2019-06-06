@@ -31,7 +31,7 @@ public abstract class ObservableSubwerkzeug
     /**
      * Initialisiert ein beobachtbares Subwerkzeug.
      */
-    public ObservableSubwerkzeug()
+    protected ObservableSubwerkzeug()
     {
         _alleBeobachter = new HashSet<SubwerkzeugObserver>();
     }

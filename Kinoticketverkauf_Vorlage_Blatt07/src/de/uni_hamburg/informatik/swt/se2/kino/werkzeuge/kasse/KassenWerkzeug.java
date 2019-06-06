@@ -70,14 +70,14 @@ public class KassenWerkzeug implements SubwerkzeugObserver
     }
     
     
-    public void reagiereAufAenderung(ObservableSubwerkzeug werkzeug)
+    public void reagiereAufAenderung(Object werkzeug)
     {
-    	if(werkzeug.equals(_datumAuswaehlWerkzeug))
+    	if(werkzeug == _datumAuswaehlWerkzeug)
     	{
     		setzeTagesplanFuerAusgewaehltesDatum();
     	}
     	
-    	if(werkzeug.equals(_vorstellungAuswaehlWerkzeug))
+    	else if(werkzeug == _vorstellungAuswaehlWerkzeug)
 		{
     		setzeAusgewaehlteVorstellung();
 		}

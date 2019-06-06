@@ -21,5 +21,5 @@ public interface SubwerkzeugObserver
     /**
      * Reagiert auf eine Änderung in dem beobachteten Subwerkzeug.
      */
-    void reagiereAufAenderung(ObservableSubwerkzeug werkzeug);
+    void reagiereAufAenderung(Object werkzeug);
 }
