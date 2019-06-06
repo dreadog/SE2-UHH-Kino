@@ -3,6 +3,8 @@ package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler.DatumAuswaehlWerkzeug;
+
 /**
  * Basisklasse für Subwerkzeuge, die ihr Kontextwerkzeug bei Änderungen
  * benachrichtigen möchten.
@@ -62,11 +64,11 @@ public abstract class ObservableSubwerkzeug
      * Diese Methode muss von der erbenden Klasse immer dann aufgerufen werden,
      * wenn eine Änderung geschehen ist, die für Beobachter interessant ist.
      */
-    protected void informiereUeberAenderung()
+    protected void informiereUeberAenderung(ObservableSubwerkzeug self)
     {
         for (SubwerkzeugObserver beobachter : _alleBeobachter)
         {
-            beobachter.reagiereAufAenderung();
+            beobachter.reagiereAufAenderung(self);
         }
     }
 }

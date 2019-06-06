@@ -7,6 +7,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kino;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Tagesplan;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.ObservableSubwerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.SubwerkzeugObserver;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler.DatumAuswaehlWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.platzverkauf.PlatzVerkaufsWerkzeug;
@@ -20,7 +21,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.V
  * @author SE2-Team
  * @version SoSe 2018
  */
-public class KassenWerkzeug
+public class KassenWerkzeug implements SubwerkzeugObserver
 {
     // Das Material dieses Werkzeugs
     private Kino _kino;
@@ -51,7 +52,10 @@ public class KassenWerkzeug
         _datumAuswaehlWerkzeug = new DatumAuswaehlWerkzeug();
         _vorstellungAuswaehlWerkzeug = new VorstellungsAuswaehlWerkzeug();
         
-        erzeugeListenerFuerSubwerkzeuge();
+        // Sich selbst als Beobachter auf den Werkzeugen setzten
+        _datumAuswaehlWerkzeug.registriereBeobachter(this);
+        _vorstellungAuswaehlWerkzeug.registriereBeobachter(this);
+        
 
         // UI erstellen (mit eingebetteten UIs der direkten Subwerkzeuge)
         _ui = new KassenWerkzeugUI(_platzVerkaufsWerkzeug.getUIPanel(),
@@ -65,29 +69,18 @@ public class KassenWerkzeug
         _ui.zeigeFenster();
     }
     
-    /**
-     * Erzeugt und registriert die Beobachter, die die Subwerkzeuge beobachten.
-     */
-    private void erzeugeListenerFuerSubwerkzeuge()
+    
+    public void reagiereAufAenderung(ObservableSubwerkzeug werkzeug)
     {
-        _datumAuswaehlWerkzeug.registriereBeobachter(new SubwerkzeugObserver()
-        {
-            @Override
-            public void reagiereAufAenderung()
-            {
-                setzeTagesplanFuerAusgewaehltesDatum();
-            }
-        });
-
-        _vorstellungAuswaehlWerkzeug
-                .registriereBeobachter(new SubwerkzeugObserver()
-                {
-                    @Override
-                    public void reagiereAufAenderung()
-                    {
-                        setzeAusgewaehlteVorstellung();
-                    }
-                });
+    	if(werkzeug.equals(_datumAuswaehlWerkzeug))
+    	{
+    		setzeTagesplanFuerAusgewaehltesDatum();
+    	}
+    	
+    	if(werkzeug.equals(_vorstellungAuswaehlWerkzeug))
+		{
+    		setzeAusgewaehlteVorstellung();
+		}
     }
 
     /**
